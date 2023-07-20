@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Coffee</title>
+  <script>
+function getcoffee() {
+      var coffeeradios = document.getElementsByName("coffee");
+      // combining both values into coffeeData for easier calling.
+      var coffeeData = {
+        coffeeName: null,
+        coffeeCost: 0,
+      };
+
+      // Get selected coffee and its cost
+      for (var i = 0; i < coffeeradios.length; i++) {
+        var radio = coffeeradios[i];
+
+        if (radio.checked) {
+          coffeeData.coffeeName = radio.value;
+
+          if (coffeeData.coffeeName === "Turkish Coffee") {
+            coffeeData.coffeeCost = 3;
+          } else if (coffeeData.coffeeName === "American Coffee") {
+            coffeeData.coffeeCost = 5;
+          } else if (coffeeData.coffeeName === "Iced Latte") {
+            coffeeData.coffeeCost = 7;
+          }
+
+          break;
+        }
+      }
+
+      
+
+      // Display selected coffee and its cost in summary1
+      if (coffeeData.coffeeName !== null) {
+        document.getElementById("summary1").innerHTML = "Selected Coffee: " + coffeeData.coffeeName + " $" + coffeeData.coffeeCost;
+      } else {
+        document.getElementById("summary1").innerHTML = "No coffee selected.";
+      }
+
+      return coffeeData;
+
+
+    }
+// Function to get size
+function getsize() {
+  // Get the size radio buttons
+  var sizeRadios = document.getElementsByName("size");
+  var selectedSize = null;
+
+  // Loop through radio
+  for (var i = 0; i < sizeRadios.length; i++) {
+    var radio = sizeRadios[i];
+
+    if (radio.checked) {
+      selectedSize = radio.value;
+      break;
+    }
+  }
+
+  return selectedSize;
+}
+
+
+
+
+// Function to get extras
+function getextras(){
+        // Assigning extras a variable
+      var extraCoffeeCheckbox = document.getElementById("extraCoffee");
+      var whippedCreamCheckbox = document.getElementById("whippedCream");
+      var caramelCheckbox = document.getElementById("caramel");
+      // Array the extras
+      var selectedExtras = [];
+
+      if (extraCoffeeCheckbox.checked) {
+        selectedExtras.push(extraCoffeeCheckbox.value);
+      }
+
+      if (whippedCreamCheckbox.checked) {
+        selectedExtras.push(whippedCreamCheckbox.value);
+      }
+
+      if (caramelCheckbox.checked) {
+        selectedExtras.push(caramelCheckbox.value);
+      }
+      // Combining the extras if any. Then pushing to summary2
+      if (selectedExtras.length > 0) {
+        var extrasummary1 = "Selected Extras: " + selectedExtras.join(", ");
+        document.getElementById("summary2").innerHTML = extrasummary1;
+      } else {
+        document.getElementById("summary2").innerHTML = "No extras selected.";
+      }
+
+    }
+
+    function summaryoutput() {
+
+    // Grabbing Name
+    var fname = document.getElementById("name").value;
+
+
+      var coffeeData = getcoffee(); // Coffee chosen and cost
+      getextras(); // Extras function
+
+      var selectedsize1 = getsize();
+
+      // Getting coffee cost and assinging it a value so that extras can be added to it
+      var totalCost = coffeeData.coffeeCost;
+
+      // Data of selected extras checkbox
+      var extraCoffeeCheckbox = document.getElementById("extraCoffee");
+      var whippedCreamCheckbox = document.getElementById("whippedCream");
+      var caramelCheckbox = document.getElementById("caramel");
+
+      // Adding costs of extras
+      if (extraCoffeeCheckbox.checked) {
+        totalCost += 1.5;  
+      }
+
+      if (whippedCreamCheckbox.checked) {
+        totalCost += 2; 
+      }
+
+      if (caramelCheckbox.checked) {
+        totalCost += 3; 
+      }
+
+      // Display the total cost in summary3 , name in summary 0 , and size in summary2.5
+      document.getElementById("summary3").innerHTML = "Total Cost: $" + totalCost.toFixed(2);
+      document.getElementById("summary0").innerHTML = "Your Name: " + fname;
+      document.getElementById("summary2.5").innerHTML = "Your size: " + selectedsize1;
+    }
+
+  </script>
+</head>
+<body>
+  <h1>Coffee Order Form</h1>
+  
+  <form>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
+    
+    <p>Which coffee would you like to order?</p>
+    <input type="radio" id="Turkish Coffee" name="coffee" value="Turkish Coffee">
+    <label for="turkish">Turkish coffee $3</label><br>
+    <input type="radio" id="American Coffee" name="coffee" value="American Coffee">
+    <label for="american">American coffee $5</label><br>
+    <input type="radio" id="Iced Latte" name="coffee" value="Iced Latte">
+    <label for="latte">Iced latte $7</label><br><br>
+
+    <p>What size would you like?</p>
+    <input type="radio" id="small" name="size" value="Small">
+    <label for="turkish">Small</label><br>
+    <input type="radio" id="medium" name="size" value="Medium">
+    <label for="turkish">Medium</label><br>
+    <input type="radio" id="large" name="size" value="Large">
+    <label for="turkish">Large</label><br><br>
+    
+    <p>Do you need any extras?</p>
+    <input type="checkbox" id="extraCoffee" name="extras[]" value="Extra Coffee">
+    <label for="extraCoffee">Extra coffee $1.50</label><br>
+    <input type="checkbox" id="whippedCream" name="extras[]" value="Whipped Cream">
+    <label for="whippedCream">Whipped cream $2</label><br>
+    <input type="checkbox" id="caramel" name="extras[]" value="Caramel">
+    <label for="caramel">Extra caramel $3</label><br><br>
+    
+    <input type="button" onclick="summaryoutput()" value="Submit">
+  </form>
+
+  <br> 
+  <p id="summary0"></p>
+  <p id="summary1"></p>
+  <p id="summary2.5"></p>
+  <p id="summary2"></p>
+  <p id="summary3"></p>
+  <p>Order details will appear here.</p>
+
+</body>
+</html>
